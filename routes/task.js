@@ -1,15 +1,14 @@
 var express = require('express')
-var app = express();
+var router = express.Router();
 var { Task } = require('../models/index')
 var authentication = require('../middleware/authentication')
 require('dotenv').config();
 const { Op } = require('sequelize');
 
 
-app.post("/tasks", authentication, async (req, res) => {
+router.post("/", authentication, async (req, res) => {
     const { title, description, priority, assignedUsers, dueDate, status } = req.body;
     const adminId = req.user.adminId;
-
     try {
         const users = Array.isArray(assignedUsers) ? assignedUsers : [assignedUsers];
 
@@ -25,7 +24,7 @@ app.post("/tasks", authentication, async (req, res) => {
     }
 })
 
-app.get("/tasks", authentication, async (req, res) => {
+router.get("/", authentication, async (req, res) => {
     const { role, userName } = req.user;
     const adminId = req.user.adminId;
 
@@ -47,7 +46,7 @@ app.get("/tasks", authentication, async (req, res) => {
 });
 
 
-app.get("/tasks/:id", authentication, async (req, res) => {
+router.get("/:id", authentication, async (req, res) => {
     const id = req.params.id
 
     try {
@@ -58,7 +57,7 @@ app.get("/tasks/:id", authentication, async (req, res) => {
     }
 })
 
-app.put("/tasks/:id", authentication, async (req, res) => {
+router.put("/:id", authentication, async (req, res) => {
 
     const taskId = req.params.id;
     const { status, priority, assignedUsers, title, description, dueDate } = req.body;
@@ -85,7 +84,7 @@ app.put("/tasks/:id", authentication, async (req, res) => {
     }
 })
 
-app.delete("/tasks/:id", authentication, async (req, res) => {
+router.delete("/:id", authentication, async (req, res) => {
     const adminId = req.user.adminId;
     const id = req.params.id;
     try {
@@ -100,4 +99,4 @@ app.delete("/tasks/:id", authentication, async (req, res) => {
     }
 });
 
-module.exports = app
+module.exports = router;

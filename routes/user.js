@@ -4,7 +4,7 @@ var { user } = require('../models/index')
 var bcrypt = require('bcrypt')
 var authentication = require('../middleware/authentication')
 
-router.post('/users', authentication, async function (req, res, next) {
+router.post('/', authentication, async function (req, res, next) {
     const { userName, passWord, role, name } = req.body;
     const adminId = req.user.adminId;  
     try {
@@ -22,7 +22,7 @@ router.post('/users', authentication, async function (req, res, next) {
     }
 });
 
-router.get("/users", authentication, async (req, res) => {
+router.get("/", authentication, async (req, res) => {
     const adminId = req.user.adminId;  
     try {
         const response = await user.findAll({
@@ -35,7 +35,7 @@ router.get("/users", authentication, async (req, res) => {
     }
 })
 
-router.delete("/users/:id", authentication, async (req, res) => {
+router.delete("/:id", authentication, async (req, res) => {
     const adminId = req.user.adminId;  
     const id = req.params.id; 
     try {
@@ -50,7 +50,7 @@ router.delete("/users/:id", authentication, async (req, res) => {
     }
 });
 
-router.get("/users/:id", authentication, async (req, res) => {
+router.get("/:id", authentication, async (req, res) => {
     const adminId = req.user.adminId;  
     const id = req.params.id; 
     try {
@@ -65,7 +65,7 @@ router.get("/users/:id", authentication, async (req, res) => {
     }
 });
 
-router.put("/users/:id", authentication, async (req, res) => {
+router.put("/:id", authentication, async (req, res) => {
     const adminId = req.user.adminId;  
     const id = req.params.id; 
     const { userName, name } = req.body
