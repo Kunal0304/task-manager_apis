@@ -6,7 +6,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node app.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -22,6 +22,7 @@
     "pg": "^8.13.1",
     "sequelize": "^6.37.5",
     "sequelize-cli": "^6.6.2",
+    "socket.io": "^4.8.1",
     "terser": "^5.37.0"
   }
 }

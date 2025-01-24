@@ -18,7 +18,16 @@ router.post("/", authentication, async (req, res) => {
 
             dueDate, status, adminId
         });
-        return res.status(200).json({ message: "Taks Added successfully." });
+
+        // Emit socket event for task creation
+        if (req.io) {
+            req.io.emit('newTaskCreated', {
+                task: response,
+                assignedUsers: users
+            });
+        }
+
+        return res.status(200).json({ message: "Task Added successfully." });
     } catch (error) {
         return res.status(500).json({ message: "Internal server error." });
     }
@@ -46,17 +55,6 @@ router.get("/", authentication, async (req, res) => {
 });
 
 
-router.get("/:id", authentication, async (req, res) => {
-    const id = req.params.id
-
-    try {
-        const response = await Task.findOne({ where: { id: id } });
-        return res.status(200).send(response)
-    } catch (error) {
-        return res.status(500).json({ message: "Internal server error." });
-    }
-})
-
 router.put("/:id", authentication, async (req, res) => {
 
     const taskId = req.params.id;
@@ -77,10 +75,33 @@ router.put("/:id", authentication, async (req, res) => {
         if (description) task.description = description;
         if (dueDate) task.dueDate = dueDate;
         await task.save();
+
+        // Emit socket event for status update
+        if (req.io) {
+            req.io.emit('taskStatusUpdated', {
+                task: task,
+                updatedBy: {
+                    id: req.user.id,
+                    name: req.user.name
+                }
+            });
+        }
+
         res.status(200).json({ message: 'Task updated successfully', data: task });
     } catch (error) {
         console.log("eeee", error)
         res.status(500).json({ message: 'Error updating task', error: error.message });
+    }
+})
+
+router.get("/:id", authentication, async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const response = await Task.findOne({ where: { id: id } });
+        return res.status(200).send(response)
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error." });
     }
 })
 
