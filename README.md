@@ -6,10 +6,10 @@ This is the backend API for the Task Manager application built with Node.js and 
 
 ## Deployed API
 
-You can access the live API here: [Visit the Deployed API](https://task-manager-backend-7nni.onrender.com)
+You can access the live API here: [Visit the Deployed API](https://task-manager-apis-kjd4.onrender.com)
 
 You can also directly visit the API at the following URL:  
-`https://task-manager-backend-7nni.onrender.com`
+`https://task-manager-apis-kjd4.onrender.com`
 
 ## Technologies Used
 - Node.js
