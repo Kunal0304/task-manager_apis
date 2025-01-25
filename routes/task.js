@@ -56,7 +56,6 @@ router.get("/", authentication, async (req, res) => {
 
 
 router.put("/:id", authentication, async (req, res) => {
-
     const taskId = req.params.id;
     const { status, priority, assignedUsers, title, description, dueDate } = req.body;
 
@@ -82,14 +81,15 @@ router.put("/:id", authentication, async (req, res) => {
                 task: task,
                 updatedBy: {
                     id: req.user.id,
-                    name: req.user.name
+                    name: req.user.name,
+                    role: req.user.role
                 }
             });
         }
 
         res.status(200).json({ message: 'Task updated successfully', data: task });
     } catch (error) {
-        console.log("eeee", error)
+        console.log("error", error)
         res.status(500).json({ message: 'Error updating task', error: error.message });
     }
 })

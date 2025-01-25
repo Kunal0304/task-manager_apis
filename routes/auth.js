@@ -26,12 +26,8 @@ router.post('/signup', async function (req, res, next) {
 
 router.post("/signin", async (req, res, next) => {
   const { userName, passWord } = req.body;
-  console.log("aaaaaaaaaa")
   try {
-  console.log("aaaffaaaaaaa")
-
       const userCheck = await user.findOne({ where: { userName: userName } })
-  console.log("aaaasssswwaaaaaa")
 
       if (!userCheck) {
           return res.status(404).json({ "message": "User not found" })
@@ -46,13 +42,11 @@ router.post("/signin", async (req, res, next) => {
               return res.status(200).json({ "message": "Sucessfully Login", token: token, role: role, name: name })
           }
           else {
-              console.log("aaassdsaaaaaaa")
               return res.status(401).json({ "message": "Unauthorized User" })
           }
           
         }
   } catch (error) {
-      console.log("error", error)
       return res.status(500).json({ "message": "Internal server error." });
   }
 })
